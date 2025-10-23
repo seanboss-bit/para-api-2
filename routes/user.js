@@ -1,41 +1,46 @@
 ("use strict");
 const router = require("express").Router();
 const User = require("../model/User");
-const Favourite = require("../model/Favourite"); // add favourite model
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const Token = require("../model/Token");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const { Resend } = require("resend");
 
-// --- MAILER CONFIG ---
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  service: "gmail",
-  port: 587,
-  secure: true,
-  auth: {
-    user: process.env.MAIL,
-    pass: process.env.MAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+// // --- MAILER CONFIG ---
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   service: "gmail",
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: process.env.MAIL,
+//     pass: process.env.MAIL_PASS,
+//   },
+//   tls: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
-transporter.verify((err) => {
-  if (err) console.log("Mail Error:", err);
-  else console.log("Mailer Ready");
-});
+// transporter.verify((err) => {
+//   if (err) {
+//     console.log("Mail Error:", err);
+//   } else console.log("Mailer Ready");
+// });
 
-const sendEmail = (email, subject, text) => {
+// --- RESEND CONFIG ---
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const sendEmail = async (email, subject, verifyUrl) => {
+  console.log(email);
   try {
-    transporter.sendMail(
-      {
-        from: '"Paraplug" paraplugs@gmail.com',
-        to: email,
-        subject: subject,
-        html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    const { data, error } = await resend.emails.send({
+      from: "Paraplug <support@support.paraplug.store>", // For testing - use your domain later
+      reply_to: "paraplugs@gmail.com", // Users will reply to your Gmail
+      to: email,
+      subject: subject,
+      html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="und">
        <head>
         <meta charset="UTF-8">
@@ -43,18 +48,7 @@ const sendEmail = (email, subject, text) => {
         <meta name="x-apple-disable-message-reformatting">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="telephone=no" name="format-detection">
-        <title>New Template</title><!--[if (mso 16)]>
-          <style type="text/css">
-          a {text-decoration: none;}
-          </style>
-          <![endif]--><!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]--><!--[if gte mso 9]>
-      <xml>
-          <o:OfficeDocumentSettings>
-          <o:AllowPNG></o:AllowPNG>
-          <o:PixelsPerInch>96</o:PixelsPerInch>
-          </o:OfficeDocumentSettings>
-      </xml>
-      <![endif]-->
+        <title>New Template</title>
         <style type="text/css">
       #outlook a {
           padding:0;
@@ -84,11 +78,7 @@ const sendEmail = (email, subject, text) => {
       </style>
        </head>
        <body data-new-gr-c-s-loaded="14.1137.0" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
-        <div dir="ltr" class="es-wrapper-color" lang="und" style="background-color:#FAFAFA"><!--[if gte mso 9]>
-                  <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
-                      <v:fill type="tile" color="#fafafa"></v:fill>
-                  </v:background>
-              <![endif]-->
+        <div dir="ltr" class="es-wrapper-color" lang="und" style="background-color:#FAFAFA">
          <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#FAFAFA">
            <tr>
             <td valign="top" style="padding:0;Margin:0">
@@ -129,13 +119,13 @@ const sendEmail = (email, subject, text) => {
                             <td align="center" class="es-m-txt-c" style="padding:0;Margin:0;padding-bottom:10px"><h1 style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:46px;font-style:normal;font-weight:bold;color:#333333">Confirm Your Email</h1></td>
                            </tr>
                            <tr>
-                            <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p></td>
+                            <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">You've received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p></td>
                            </tr>
                            <tr>
                             <td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">If you did not register with us, please disregard this email.</p></td>
                            </tr>
                            <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#0084d6;border-width:0px;display:inline-block;border-radius:6px;width:auto"><a href=${text} class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#0084d6;border-radius:6px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;mso-padding-alt:0;mso-border-alt:10px solid #0084d6;padding-left:30px;padding-right:30px">CONFIRM YOUR EMAIL</a></span></td>
+                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#0084d6;border-width:0px;display:inline-block;border-radius:6px;width:auto"><a href="${verifyUrl}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#0084d6;border-radius:6px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;mso-padding-alt:0;mso-border-alt:10px solid #0084d6;padding-left:30px;padding-right:30px">CONFIRM YOUR EMAIL</a></span></td>
                            </tr>
                            <tr>
                             <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Once confirmed, this email will be uniquely associated with your account.</p></td>
@@ -167,7 +157,7 @@ const sendEmail = (email, subject, text) => {
                              </table></td>
                            </tr>
                            <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-bottom:35px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Paraplug © 2023 Paraplug, Inc. All Rights Reserved.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px"><br></p></td>
+                            <td align="center" style="padding:0;Margin:0;padding-bottom:35px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Paraplug © 2023 Paraplug, Inc. All Rights Reserved.</p></td>
                            </tr>
                          </table></td>
                        </tr>
@@ -180,19 +170,19 @@ const sendEmail = (email, subject, text) => {
          </table>
         </div>
        </body>
-      </html>
-        `,
-      },
-      (err, info) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(info);
-        }
-      }
-    );
+      </html>`,
+    });
+
+    if (error) {
+      console.log("Email Error:", error);
+      return false;
+    }
+
+    console.log("Email sent successfully:", data);
+    return true;
   } catch (error) {
-    console.log(error);
+    console.log("Email sending failed:", error);
+    return false;
   }
 };
 
@@ -233,7 +223,7 @@ router.post("/", async (req, res) => {
     }).save();
 
     const verifyUrl = `${process.env.DOMAIN}/confirm/${savedUser._id}/${token.token}`;
-    sendEmail(savedUser.email, "Verify Email", verifyUrl);
+    await sendEmail(savedUser.email, "Verify Email", verifyUrl);
     res.status(200).json({
       message:
         "A confirmation email has been sent. Please verify your account.",
@@ -248,7 +238,16 @@ router.post("/", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+
     if (!user)
+      return res.status(400).json({ error: "Wrong email or password" });
+
+    const decryptedPass = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASS_CRYPTO
+    ).toString(CryptoJS.enc.Utf8);
+
+    if (decryptedPass !== req.body.password)
       return res.status(400).json({ error: "Wrong email or password" });
 
     if (!user.isVerified) {
@@ -259,20 +258,12 @@ router.post("/login", async (req, res) => {
           token: crypto.randomBytes(32).toString("hex"),
         }).save();
         const verifyUrl = `${process.env.DOMAIN}/confirm/${user._id}/${token.token}`;
-        sendEmail(user.email, "Verify Email", verifyUrl);
+        await sendEmail(user.email, "Verify Email", verifyUrl);
       }
       return res.status(403).json({
         message: "Verification email sent. Please verify your account.",
       });
     }
-
-    const decryptedPass = CryptoJS.AES.decrypt(
-      user.password,
-      process.env.PASS_CRYPTO
-    ).toString(CryptoJS.enc.Utf8);
-
-    if (decryptedPass !== req.body.password)
-      return res.status(400).json({ error: "Wrong email or password" });
 
     const accessToken = jwt.sign(
       {

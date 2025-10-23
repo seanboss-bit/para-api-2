@@ -23,11 +23,11 @@ router.post("/initialize", verifyToken, async (req, res) => {
       {
         email,
         amount: koboAmount,
-        callback_url: `${process.env.LOCAL_DOMAIN}/success`,
+        callback_url: `${process.env.DOMAIN}/success`,
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.TEST_KEY}`,
+          Authorization: `Bearer ${process.env.MAIN_KEY}`,
           "Content-Type": "application/json",
         },
       }
