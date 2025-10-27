@@ -3,6 +3,7 @@ const router = require("express").Router();
 const axios = require("axios");
 const Order = require("../model/Order");
 const Cart = require("../model/Cart");
+const sendOrderNotification = require("../lib/sendOrderNotification");
 
 router.post("/initialize", verifyToken, async (req, res) => {
   try {
@@ -12,7 +13,6 @@ router.post("/initialize", verifyToken, async (req, res) => {
       return res.status(400).json({ error: "Missing required order info" });
 
     const { email, id: userId, firstname: name, lastname: lname } = req.user;
-    console.log(req.user);
 
     // Convert to Kobo
     const koboAmount = total * 100;
@@ -27,7 +27,7 @@ router.post("/initialize", verifyToken, async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.MAIN_KEY}`,
+          Authorization: `Bearer ${process.env.TEST_KEY}`,
           "Content-Type": "application/json",
         },
       }
@@ -92,6 +92,12 @@ router.get("/verify/:reference", verifyToken, async (req, res) => {
             paidAt: data.paid_at,
           },
         }
+      );
+
+      const savedOrder = await Order.findOne({ reference });
+
+      sendOrderNotification(savedOrder).catch((err) =>
+        console.error("notify err", err)
       );
 
       await Cart.findOneAndDelete({ userId: req.user.id });

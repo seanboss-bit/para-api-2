@@ -12,6 +12,7 @@ const review = require("./routes/review");
 const favourite = require("./routes/favourite");
 const cart = require("./routes/cart");
 const paystack = require("./routes/paystack");
+const pushNotifications = require("./routes/pushSubscription");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -30,6 +31,7 @@ app.use("/review", review);
 app.use("/favourite", favourite);
 app.use("/cart", cart);
 app.use("/payment", paystack);
+app.use("/push", pushNotifications);
 app.get("/", (req, res) => {
   res.send("Back Running");
 });
