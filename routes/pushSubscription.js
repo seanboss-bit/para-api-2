@@ -10,7 +10,7 @@ router.get("/vapidPublicKey", async (req, res) => {
 
 router.post("/subscribe", verifyAdmin, async (req, res) => {
   try {
-    const adminId = req.user._id; // set by verifyAdminMiddleware
+    const adminId = req.user.id; // set by verifyAdminMiddleware
     const subscription = req.body.subscription;
     if (!subscription || !subscription.endpoint) {
       return res.status(400).json({ message: "Invalid subscription" });
