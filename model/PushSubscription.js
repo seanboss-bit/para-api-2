@@ -4,7 +4,7 @@ const pushSubscriptionSchema = new mongoose.Schema(
   {
     adminId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Admin", // assuming you have an Admin model
+      ref: "User", // assuming you have an Admin model
       required: true,
     },
     endpoint: { type: String, required: true },
