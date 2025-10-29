@@ -36,10 +36,25 @@ const sendEmail = async (email, subject, verifyUrl) => {
   console.log(email);
   try {
     const { data, error } = await resend.emails.send({
-      from: "Paraplug <support@support.paraplug.store>", // For testing - use your domain later
+      from: "Paraplug <noreply@paraplug.store>", // For testing - use your domain later
       reply_to: "paraplugs@gmail.com", // Users will reply to your Gmail
       to: email,
       subject: subject,
+      text: `
+Hello,
+
+You've received this message because your email address has been registered with Paraplug.
+
+Please verify your email address by clicking the link below:
+${verifyUrl}
+
+If you did not register with us, please disregard this email.
+
+Once confirmed, this email will be uniquely associated with your account.
+
+---
+Paraplug © 2025 Paraplug, Inc. All Rights Reserved.
+      `.trim(),
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="und">
        <head>
