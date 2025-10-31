@@ -27,7 +27,7 @@ router.post("/initialize", verifyToken, async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.TEST_KEY}`,
+          Authorization: `Bearer ${process.env.MAIN_KEY}`,
           "Content-Type": "application/json",
         },
       }
@@ -73,7 +73,7 @@ router.get("/verify/:reference", verifyToken, async (req, res) => {
       `https://api.paystack.co/transaction/verify/${reference}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.TEST_KEY}`,
+          Authorization: `Bearer ${process.env.MAIN_KEY}`,
         },
       }
     );
