@@ -7,6 +7,7 @@ const Token = require("../model/Token");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const { Resend } = require("resend");
+const sendForgotPasswordEmail = require("../lib/forgotPassword");
 
 // // --- MAILER CONFIG ---
 // const transporter = nodemailer.createTransport({
@@ -405,6 +406,63 @@ router.get("/find/ref/:id", async (req, res) => {
       message: "User referrals fetched successfully",
       referrals,
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// --- REQUEST PASSWORD RESET ---
+router.post("/reset-password-request", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    // Delete previous reset token if exists
+    let token = await Token.findOne({ userId: user._id });
+    if (token) await token.deleteOne();
+
+    // Create new token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    await new Token({
+      userId: user._id,
+      token: resetToken,
+    }).save();
+
+    // Reset link
+    const resetUrl = `${process.env.DOMAIN}/reset-password/${user._id}/${resetToken}`;
+
+    await sendForgotPasswordEmail(user.email, resetUrl);
+    res.status(200).json({
+      message: "Password reset email sent. Check your inbox.",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// --- RESET PASSWORD ---
+router.post("/reset-password/:id/:token", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(400).json({ message: "Invalid link" });
+
+    const token = await Token.findOne({
+      userId: user._id,
+      token: req.params.token,
+    });
+    if (!token)
+      return res.status(400).json({ message: "Invalid or expired token" });
+
+    // Encrypt new password
+    user.password = CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_CRYPTO
+    ).toString();
+
+    await user.save();
+    await token.deleteOne();
+
+    res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
