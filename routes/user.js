@@ -37,156 +37,281 @@ const sendEmail = async (email, subject, verifyUrl) => {
   console.log(email);
   try {
     const { data, error } = await resend.emails.send({
-      from: "Paraplug <noreply@paraplug.store>", // For testing - use your domain later
-      reply_to: "paraplugs@gmail.com", // Users will reply to your Gmail
+      from: "Paraplug <noreply@paraplug.store>",
+      reply_to: "paraplugs@gmail.com",
       to: email,
       subject: subject,
       text: `
 Hello,
 
-You've received this message because your email address has been registered with Paraplug.
+Welcome to Paraplug! We're excited to have you on board.
 
-Please verify your email address by clicking the link below:
+To get started, please verify your email address by clicking the link below:
 ${verifyUrl}
 
-If you did not register with us, please disregard this email.
+This link will expire in 24 hours for security reasons.
 
-Once confirmed, this email will be uniquely associated with your account.
+If you didn't create an account with Paraplug, you can safely ignore this email.
+
+Need help? Reply to this email and we'll be happy to assist you.
+
+Best regards,
+The Paraplug Team
 
 ---
-Paraplug © 2025 Paraplug, Inc. All Rights Reserved.
+Paraplug
+© 2025 Paraplug, Inc. All Rights Reserved.
       `.trim(),
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="und">
-       <head>
-        <meta charset="UTF-8">
-        <meta content="width=device-width, initial-scale=1" name="viewport">
-        <meta name="x-apple-disable-message-reformatting">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="telephone=no" name="format-detection">
-        <title>New Template</title>
-        <style type="text/css">
-      #outlook a {
-          padding:0;
-      }
-      .es-button {
-          mso-style-priority:100!important;
-          text-decoration:none!important;
-      }
-      a[x-apple-data-detectors] {
-          color:inherit!important;
-          text-decoration:none!important;
-          font-size:inherit!important;
-          font-family:inherit!important;
-          font-weight:inherit!important;
-          line-height:inherit!important;
-      }
-      .es-desk-hidden {
-          display:none;
-          float:left;
-          overflow:hidden;
-          width:0;
-          max-height:0;
-          line-height:0;
-          mso-hide:all;
-      }
-      @media only screen and (max-width:600px) {p, ul li, ol li, a { line-height:150%!important } h1, h2, h3, h1 a, h2 a, h3 a { line-height:120% } h1 { font-size:36px!important; text-align:left } h2 { font-size:26px!important; text-align:left } h3 { font-size:20px!important; text-align:left } .es-header-body h1 a, .es-content-body h1 a, .es-footer-body h1 a { font-size:36px!important; text-align:left } .es-header-body h2 a, .es-content-body h2 a, .es-footer-body h2 a { font-size:26px!important; text-align:left } .es-header-body h3 a, .es-content-body h3 a, .es-footer-body h3 a { font-size:20px!important; text-align:left } .es-menu td a { font-size:12px!important } .es-header-body p, .es-header-body ul li, .es-header-body ol li, .es-header-body a { font-size:14px!important } .es-content-body p, .es-content-body ul li, .es-content-body ol li, .es-content-body a { font-size:16px!important } .es-footer-body p, .es-footer-body ul li, .es-footer-body ol li, .es-footer-body a { font-size:14px!important } .es-infoblock p, .es-infoblock ul li, .es-infoblock ol li, .es-infoblock a { font-size:12px!important } *[class="gmail-fix"] { display:none!important } .es-m-txt-c, .es-m-txt-c h1, .es-m-txt-c h2, .es-m-txt-c h3 { text-align:center!important } .es-m-txt-r, .es-m-txt-r h1, .es-m-txt-r h2, .es-m-txt-r h3 { text-align:right!important } .es-m-txt-l, .es-m-txt-l h1, .es-m-txt-l h2, .es-m-txt-l h3 { text-align:left!important } .es-m-txt-r img, .es-m-txt-c img, .es-m-txt-l img { display:inline!important } .es-button-border { display:inline-block!important } a.es-button, button.es-button { font-size:20px!important; display:inline-block!important } .es-adaptive table, .es-left, .es-right { width:100%!important } .es-content table, .es-header table, .es-footer table, .es-content, .es-footer, .es-header { width:100%!important; max-width:600px!important } .es-adapt-td { display:block!important; width:100%!important } .adapt-img { width:100%!important; height:auto!important } .es-m-p0 { padding:0!important } .es-m-p0r { padding-right:0!important } .es-m-p0l { padding-left:0!important } .es-m-p0t { padding-top:0!important } .es-m-p0b { padding-bottom:0!important } .es-m-p20b { padding-bottom:20px!important } .es-mobile-hidden, .es-hidden { display:none!important } tr.es-desk-hidden, td.es-desk-hidden, table.es-desk-hidden { width:auto!important; overflow:visible!important; float:none!important; max-height:inherit!important; line-height:inherit!important } tr.es-desk-hidden { display:table-row!important } table.es-desk-hidden { display:table!important } td.es-desk-menu-hidden { display:table-cell!important } .es-menu td { width:1%!important } table.es-table-not-adapt, .esd-block-html table { width:auto!important } table.es-social { display:inline-block!important } table.es-social td { display:inline-block!important } .es-m-p5 { padding:5px!important } .es-m-p5t { padding-top:5px!important } .es-m-p5b { padding-bottom:5px!important } .es-m-p5r { padding-right:5px!important } .es-m-p5l { padding-left:5px!important } .es-m-p10 { padding:10px!important } .es-m-p10t { padding-top:10px!important } .es-m-p10b { padding-bottom:10px!important } .es-m-p10r { padding-right:10px!important } .es-m-p10l { padding-left:10px!important } .es-m-p15 { padding:15px!important } .es-m-p15t { padding-top:15px!important } .es-m-p15b { padding-bottom:15px!important } .es-m-p15r { padding-right:15px!important } .es-m-p15l { padding-left:15px!important } .es-m-p20 { padding:20px!important } .es-m-p20t { padding-top:20px!important } .es-m-p20r { padding-right:20px!important } .es-m-p20l { padding-left:20px!important } .es-m-p25 { padding:25px!important } .es-m-p25t { padding-top:25px!important } .es-m-p25b { padding-bottom:25px!important } .es-m-p25r { padding-right:25px!important } .es-m-p25l { padding-left:25px!important } .es-m-p30 { padding:30px!important } .es-m-p30t { padding-top:30px!important } .es-m-p30b { padding-bottom:30px!important } .es-m-p30r { padding-right:30px!important } .es-m-p30l { padding-left:30px!important } .es-m-p35 { padding:35px!important } .es-m-p35t { padding-top:35px!important } .es-m-p35b { padding-bottom:35px!important } .es-m-p35r { padding-right:35px!important } .es-m-p35l { padding-left:35px!important } .es-m-p40 { padding:40px!important } .es-m-p40t { padding-top:40px!important } .es-m-p40b { padding-bottom:40px!important } .es-m-p40r { padding-right:40px!important } .es-m-p40l { padding-left:40px!important } .es-desk-hidden { display:table-row!important; width:auto!important; overflow:visible!important; max-height:inherit!important } }
-      </style>
-       </head>
-       <body data-new-gr-c-s-loaded="14.1137.0" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
-        <div dir="ltr" class="es-wrapper-color" lang="und" style="background-color:#FAFAFA">
-         <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#FAFAFA">
-           <tr>
-            <td valign="top" style="padding:0;Margin:0">
-             <table cellpadding="0" cellspacing="0" class="es-header" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
-               <tr>
-                <td align="center" style="padding:0;Margin:0">
-                 <table bgcolor="#ffffff" class="es-header-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="date=no"/>
+    <meta name="format-detection" content="address=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>Verify Your Email - Paraplug</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+        a {
+            text-decoration: none;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .hover-button:hover {
+            opacity: 0.9 !important;
+        }
+        @media only screen and (max-width: 600px) {
+            .wrapper {
+                width: 100% !important;
+            }
+            .container {
+                width: 100% !important;
+            }
+            .mobile-padding {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            .mobile-text {
+                font-size: 15px !important;
+                line-height: 24px !important;
+            }
+            .mobile-title {
+                font-size: 24px !important;
+            }
+        }
+    </style>
+    <!--[if mso]>
+    <style type="text/css">
+        .gradient-bg {
+            background: #667eea !important;
+        }
+    </style>
+    <![endif]-->
+</head>
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    
+    <!-- Wrapper Table -->
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f5f5f5;">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                
+                <!-- Main Container Table -->
+                <table role="presentation" class="wrapper" width="600" cellspacing="0" cellpadding="0" border="0" style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    
+                    <!-- Header with Gradient -->
+                    <tr>
+                        <td class="gradient-bg" align="center" style="padding: 40px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td align="center">
+                                        <h1 style="margin: 0; font-size: 36px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">PARAPLUG</h1>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- Email Icon -->
                    <tr>
-                    <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px">
-                     <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                       <tr>
-                        <td class="es-m-p0r" valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                           <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-bottom:20px;font-size:0px"><img src="https://fcfkrrt.stripocdn.email/content/guids/CABINET_637b3dc440c27613cc4d4ce356771851228bc9a36033a94638af596713983095/images/headed_para.PNG" alt="Logo" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;font-size:12px" width="200" title="Logo"></td>
-                           </tr>
-                         </table></td>
-                       </tr>
-                     </table></td>
-                   </tr>
-                 </table></td>
-               </tr>
-             </table>
-             <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-               <tr>
-                <td align="center" style="padding:0;Margin:0">
-                 <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
-                   <tr>
-                    <td align="left" style="Margin:0;padding-left:20px;padding-right:20px;padding-top:30px;padding-bottom:30px">
-                     <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                       <tr>
-                        <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                           <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px;font-size:0px"><img src="https://fcfkrrt.stripocdn.email/content/guids/CABINET_67e080d830d87c17802bd9b4fe1c0912/images/55191618237638326.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="100"></td>
-                           </tr>
-                           <tr>
-                            <td align="center" class="es-m-txt-c" style="padding:0;Margin:0;padding-bottom:10px"><h1 style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:46px;font-style:normal;font-weight:bold;color:#333333">Confirm Your Email</h1></td>
-                           </tr>
-                           <tr>
-                            <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">You've received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p></td>
-                           </tr>
-                           <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">If you did not register with us, please disregard this email.</p></td>
-                           </tr>
-                           <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#0084d6;border-width:0px;display:inline-block;border-radius:6px;width:auto"><a href="${verifyUrl}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#0084d6;border-radius:6px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;mso-padding-alt:0;mso-border-alt:10px solid #0084d6;padding-left:30px;padding-right:30px">CONFIRM YOUR EMAIL</a></span></td>
-                           </tr>
-                           <tr>
-                            <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Once confirmed, this email will be uniquely associated with your account.</p></td>
-                           </tr>
-                         </table></td>
-                       </tr>
-                     </table></td>
-                   </tr>
-                 </table></td>
-               </tr>
-             </table>
-             <table cellpadding="0" cellspacing="0" class="es-footer" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
-               <tr>
-                <td align="center" style="padding:0;Margin:0">
-                 <table class="es-footer-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:640px">
-                   <tr>
-                    <td align="left" style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:20px;padding-right:20px">
-                     <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                       <tr>
-                        <td align="left" style="padding:0;Margin:0;width:600px">
-                         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                           <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-top:15px;padding-bottom:15px;font-size:0">
-                             <table cellpadding="0" cellspacing="0" class="es-table-not-adapt es-social" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                               <tr>
-                                <td align="center" valign="top" style="padding:0;Margin:0;padding-right:40px"><img title="Twitter" src="https://fcfkrrt.stripocdn.email/content/assets/img/social-icons/logo-black/twitter-logo-black.png" alt="Tw" width="32" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td>
-                                <td align="center" valign="top" style="padding:0;Margin:0"><img title="Instagram" src="https://fcfkrrt.stripocdn.email/content/assets/img/social-icons/logo-black/instagram-logo-black.png" alt="Inst" width="32" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td>
-                               </tr>
-                             </table></td>
-                           </tr>
-                           <tr>
-                            <td align="center" style="padding:0;Margin:0;padding-bottom:35px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Paraplug © 2023 Paraplug, Inc. All Rights Reserved.</p></td>
-                           </tr>
-                         </table></td>
-                       </tr>
-                     </table></td>
-                   </tr>
-                 </table></td>
-               </tr>
-             </table></td>
-           </tr>
-         </table>
-        </div>
-       </body>
-      </html>`,
+                        <td align="center" style="padding: 0 40px;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td align="center" class="gradient-bg" width="80" height="80" style="border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                        <span style="font-size: 36px; line-height: 80px; color: #ffffff;">✉</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- Title -->
+                    <tr>
+                        <td class="mobile-padding" align="center" style="padding: 0 40px;">
+                            <h2 class="mobile-title" style="margin: 0; font-size: 28px; font-weight: 700; color: #1a1a1a; line-height: 1.3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Verify Your Email Address</h2>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="20" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- Body Text -->
+                    <tr>
+                        <td class="mobile-padding" align="center" style="padding: 0 40px;">
+                            <p class="mobile-text" style="margin: 0 0 15px 0; font-size: 16px; line-height: 26px; color: #666666; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                Welcome to Paraplug! We're thrilled to have you join our community.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="mobile-padding" align="center" style="padding: 0 40px;">
+                            <p class="mobile-text" style="margin: 0; font-size: 16px; line-height: 26px; color: #666666; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                To complete your registration and secure your account, please verify your email address by clicking the button below.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- CTA Button -->
+                    <tr>
+                        <td align="center" style="padding: 0 40px;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td class="gradient-bg hover-button" align="center" style="border-radius: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
+                                        <a href="${verifyUrl}" target="_blank" style="display: inline-block; padding: 16px 48px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            Verify Email Address
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- Security Notice -->
+                    <tr>
+                        <td class="mobile-padding" style="padding: 0 40px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f8f9fa; border-left: 4px solid #667eea; border-radius: 4px;">
+                                <tr>
+                                    <td style="padding: 16px 20px;">
+                                        <p style="margin: 0; font-size: 14px; line-height: 22px; color: #555555; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            <strong>🔒 Security Notice:</strong> This verification link will expire in 24 hours for your protection. If you didn't create an account with Paraplug, you can safely ignore this email.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- Alternative Link -->
+                    <tr>
+                        <td class="mobile-padding" style="padding: 0 40px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f8f9fa; border-radius: 8px;">
+                                <tr>
+                                    <td style="padding: 20px;">
+                                        <p style="margin: 0 0 10px 0; font-size: 13px; line-height: 20px; color: #666666; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            <strong>Button not working?</strong> Copy and paste this link into your browser:
+                                        </p>
+                                        <p style="margin: 0; font-size: 12px; line-height: 18px; color: #667eea; text-align: center; word-break: break-all; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            <a href="${verifyUrl}" style="color: #667eea; text-decoration: none;">${verifyUrl}</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Spacer -->
+                    <tr>
+                        <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #fafafa; padding: 30px 40px; border-radius: 0 0 12px 12px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td align="center">
+                                        <p style="margin: 0 0 15px 0; font-size: 13px; line-height: 20px; color: #999999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            Need help? Simply reply to this email and our support team will assist you.
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 10px 0;">
+                                        <p style="margin: 0; font-size: 13px; line-height: 20px; color: #999999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            <a href="#" style="color: #999999; text-decoration: none;">Twitter</a> • 
+                                            <a href="#" style="color: #999999; text-decoration: none;">Instagram</a> • 
+                                            <a href="#" style="color: #999999; text-decoration: none;">Support</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding-top: 10px;">
+                                        <p style="margin: 0; font-size: 12px; line-height: 18px; color: #bbbbbb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                            © 2025 Paraplug, Inc. All Rights Reserved.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                </table>
+                
+            </td>
+        </tr>
+    </table>
+    
+</body>
+</html>`,
     });
 
     if (error) {
